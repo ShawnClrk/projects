@@ -1,0 +1,35 @@
+{
+  "schemaVersion": "2.2",
+  "description": "Add a user to EC2 instance using public key",
+  "mainSteps": [
+    {
+      "action": "aws:runShellScript",
+      "name": "addUser",
+      "inputs": {
+        "runCommand": [
+          "USERNAME=break-glass",
+          "USER_HOME=/home/$USERNAME",
+          "sudo useradd -m $USERNAME -s /bin/bash",
+          "sudo mkdir $USER_HOME/.ssh",
+          "sudo chmod 700 $USER_HOME/.ssh",
+          "sudo chown $USERNAME:$USERNAME $USER_HOME/.ssh",
+          "echo 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDg4Tss2eHWT2Z/6SYYMNb2hzmcl0hoxckGhTf3KVIVpRFrfRks3Qnh2oGycey2icwYfrun1vWm6rmUug9hZTVTHfsabj++xylEu/8XuQto0HeWp9tk4iwNku6EZ+JBzuR7iHrVZcwqSCQn5ln9SaKALO
+          uCqoDNQq/gWIYPmZVE0WD+66pIfKuUvaADNpVecn4B+AGsfBgAeKVz63zXqxbR8Y3Hjl2rvVfGBSGj9kxykH9klI0ew3falGh3D5JNpxXRyWg2u9LkLXEqqXRJXF9JqRKT0ZqTLaprWqOe6U7DoHV8ktyYyE6F1WqwjU4g0f8+gYQ8DgQK8ijcwnZmnfAo
+          21RniftymQRoGx6rr3o0TshA61WwC/lI90jnLakt89KWlEvMtb4jWkL0a9NuaUQf21c29lYvQfLSRyqqMXanGrkcrhCG0iY39gwAYVPMotulycd4BEOxv9sVDCoeHcDkJZw4XYVpSJvI1+vh41gquJJLEuA3Sq997uxSrOSjCPncOqSeOd63TJYXYk1hR6
+          rbkipoqwglDrRbWKFZo+aWYpBISDV/ap0a9S4c3ltRrwJN6BgI5ZvHWEw0wUQA/VKnRlFtnvNYylIlMFnDjzDhgRxpunvmPpaz1cl1uiM398mNuOyQikxxqZovdkEYveJWssOM/V5ulY9HYGTaRAEO1w== santiagorivera@MBP-M1.local' | sudo tee -a $USER_HOME/.ssh/authorized_keys",
+          "sudo chmod 600 $USER_HOME/.ssh/authorized_keys",
+          "sudo chown $USERNAME:$USERNAME $USER_HOME/.ssh/authorized_keys"
+        ]
+      }
+    },
+    {
+      "action": "aws:runShellScript",
+      "name": "verifyUser",
+      "inputs": {
+        "runCommand": [
+          "id $USERNAME"
+        ]
+      }
+    }
+  ]
+}
