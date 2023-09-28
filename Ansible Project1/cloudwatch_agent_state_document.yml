@@ -1,0 +1,35 @@
+---
+- name: Download and unzip CloudWatchMonitoringScripts-1.2.2.zip
+
+  tasks:
+    - name: Install required tools - wget, unzip
+      become: true
+      package:
+        name: "{{ item }}"
+        state: present
+      with_items:
+        - wget
+        - unzip
+
+    - name: Download CloudWatchMonitoringScripts-1.2.2.zip from S3
+      aws_s3:
+        bucket: aws-cloudwatch
+        object: downloads/CloudWatchMonitoringScripts-1.2.2.zip
+        dest: /tmp/CloudWatchMonitoringScripts-1.2.2.zip
+        mode: get
+
+#    - name: Unzip the package
+#      ansible.builtin.unarchive:
+#        src: /tmp/CloudWatchMonitoringScripts-1.2.2.zip
+#        dest: /tmp
+
+#    - name: Remove the zip file
+#      ansible.builtin.file:
+#        path: /tmp/CloudWatchMonitoringScripts-1.2.2.zip
+#        state: absent
+
+#    - name: Change working directory to aws-scripts-mon
+#      ansible.builtin.command: cd /tmp/aws-scripts-mon
+
+#    - name: Execute mon-put-instance-data.pl script
+ #     ansible.builtin.command: ./mon-put-instance-data.pl --mem-util --disk-space-util --disk-path=/

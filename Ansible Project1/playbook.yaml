@@ -1,0 +1,26 @@
+---
+- name: Install CloudWatch Agent
+  hosts: localhost
+  become: true
+  tasks:
+    - name: Installing cloudwatch RPM ...
+      yum:
+        name: amazon-cloudwatch-agent
+        state: present
+      tags: install_rpm_package
+
+    - name: Download config file
+      get_url:
+        url: "https://ansiblebucket-cwalarms.s3.amazonaws.com/AnsibleCWAgent/config.json"
+        dest: /opt/aws/amazon-cloudwatch-agent/bin/config.json
+      tags:
+        - download config file
+
+    - name: Starting the Cloudwatch service
+      command: /opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-ctl -a fetch-config -m ec2 -c file:'/opt/aws/amazon-cloudwatch-agent/bin/config.json' -s
+      tags: start_service
+
+    - name: enable cloudwatch agent
+      systemd:
+        name: amazon-cloudwatch-agent
+        enabled: yes

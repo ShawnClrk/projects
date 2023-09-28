@@ -1,0 +1,11 @@
+ #!/bin/bash
+          yum update -y
+          yum install -y httpd
+          systemctl start httpd.service
+          systemctl enable httpd.service
+          yum install -y aws-cli
+          yum install -y git
+          aws configure set default.region us-east-1
+	git clone https://shawn-viti-at-767744426419:AG+rM0dTnDsO2BF5qNjRNxTwyn1ghPtIz8z8vTpRdqw=@git-codecommit.us-east-1.amazonaws.com/v1/repos/Ticket10_Repo /var/www/html
+ systemctl restart httpd.service
+
